@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="fc:frame" content="vNext">
+  <meta name="base:app_id" content="[SONRA EKLENECEK]">
+  <title>Tetris</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="game-container">
+    <div id="header">
+      <div id="score-display">
+        <span>SKOR</span>
+        <span id="score">0</span>
+      </div>
+      <div id="level-display">
+        <span>SEVİYE</span>
+        <span id="level">1</span>
+      </div>
+      <div id="lines-display">
+        <span>SATIR</span>
+        <span id="lines">0</span>
+      </div>
+    </div>
+    
+    <canvas id="game-board"></canvas>
+    
+    <div id="next-piece-container">
+      <span>SONRAKİ</span>
+      <canvas id="next-piece"></canvas>
+    </div>
+    
+    <div id="controls">
+      <button id="btn-left">◀</button>
+      <button id="btn-rotate">↻</button>
+      <button id="btn-down">▼</button>
+      <button id="btn-right">▶</button>
+    </div>
+    
+    <div id="game-over" class="hidden">
+      <h2>OYUN BİTTİ</h2>
+      <p>Skor: <span id="final-score">0</span></p>
+      <button id="restart-btn">YENİDEN OYNA</button>
+    </div>
+  </div>
+  
+  <script type="module" src="game.js"></script>
+</body>
+</html>

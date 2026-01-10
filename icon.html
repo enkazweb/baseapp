@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Icon Generator</title>
+  <style>
+    body {
+      background: #1a1a2e;
+      color: white;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px;
+      gap: 30px;
+    }
+    h2 { color: #e94560; }
+    canvas {
+      border: 2px solid #e94560;
+      border-radius: 10px;
+    }
+    a {
+      display: inline-block;
+      background: #e94560;
+      color: white;
+      padding: 12px 24px;
+      text-decoration: none;
+      border-radius: 25px;
+      margin-top: 10px;
+    }
+    a:hover { background: #c73e54; }
+    .section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>Tetris Icon Generator</h1>
+  
+  <div class="section">
+    <h2>icon.png (200x200)</h2>
+    <canvas id="icon" width="200" height="200"></canvas>
+    <a id="download-icon" download="icon.png">Download icon.png</a>
+  </div>
+  
+  <div class="section">
+    <h2>preview.png (600x400)</h2>
+    <canvas id="preview" width="600" height="400"></canvas>
+    <a id="download-preview" download="preview.png">Download preview.png</a>
+  </div>
+
+  <script>
+    const COLORS = ['#00f5ff', '#ffe66d', '#9b59b6', '#2ecc71', '#e74c3c', '#3498db', '#e67e22'];
+    
+    function drawBlock(ctx, x, y, size, color) {
+      ctx.fillStyle = color;
+      ctx.fillRect(x, y, size - 2, size - 2);
+      ctx.fillStyle = 'rgba(255,255,255,0.3)';
+      ctx.fillRect(x, y, size - 2, 4);
+      ctx.fillRect(x, y, 4, size - 2);
+      ctx.fillStyle = 'rgba(0,0,0,0.3)';
+      ctx.fillRect(x, y + size - 6, size - 2, 4);
+      ctx.fillRect(x + size - 6, y, 4, size - 2);
+    }
+    
+    // Icon 200x200
+    const iconCanvas = document.getElementById('icon');
+    const iconCtx = iconCanvas.getContext('2d');
+    
+    // Arka plan gradient
+    const iconGrad = iconCtx.createLinearGradient(0, 0, 200, 200);
+    iconGrad.addColorStop(0, '#1a1a2e');
+    iconGrad.addColorStop(1, '#0f3460');
+    iconCtx.fillStyle = iconGrad;
+    iconCtx.fillRect(0, 0, 200, 200);
+    
+    // T parçası çiz (ortada)
+    const blockSize = 35;
+    const startX = 47;
+    const startY = 50;
+    
+    // T şekli
+    drawBlock(iconCtx, startX + blockSize, startY, blockSize, '#9b59b6');
+    drawBlock(iconCtx, startX, startY + blockSize, blockSize, '#9b59b6');
+    drawBlock(iconCtx, startX + blockSize, startY + blockSize, blockSize, '#9b59b6');
+    drawBlock(iconCtx, startX + blockSize * 2, startY + blockSize, blockSize, '#9b59b6');
+    
+    // Alt kısımda renkli bloklar
+    const bottomY = 140;
+    drawBlock(iconCtx, 15, bottomY, 30, '#00f5ff');
+    drawBlock(iconCtx, 45, bottomY, 30, '#ffe66d');
+    drawBlock(iconCtx, 75, bottomY, 30, '#2ecc71');
+    drawBlock(iconCtx, 105, bottomY, 30, '#e74c3c');
+    drawBlock(iconCtx, 135, bottomY, 30, '#3498db');
+    drawBlock(iconCtx, 165, bottomY, 30, '#e67e22');
+    
+    document.getElementById('download-icon').href = iconCanvas.toDataURL('image/png');
+    
+    // Preview 600x400
+    const previewCanvas = document.getElementById('preview');
+    const previewCtx = previewCanvas.getContext('2d');
+    
+    // Arka plan
+    const previewGrad = previewCtx.createLinearGradient(0, 0, 600, 400);
+    previewGrad.addColorStop(0, '#1a1a2e');
+    previewGrad.addColorStop(0.5, '#16213e');
+    previewGrad.addColorStop(1, '#0f3460');
+    previewCtx.fillStyle = previewGrad;
+    previewCtx.fillRect(0, 0, 600, 400);
+    
+    // Oyun alanı çerçevesi
+    previewCtx.strokeStyle = '#e94560';
+    previewCtx.lineWidth = 4;
+    previewCtx.strokeRect(200, 30, 200, 340);
+    
+    // Grid
+    previewCtx.strokeStyle = 'rgba(255,255,255,0.1)';
+    previewCtx.lineWidth = 1;
+    for (let x = 200; x <= 400; x += 20) {
+      previewCtx.beginPath();
+      previewCtx.moveTo(x, 30);
+      previewCtx.lineTo(x, 370);
+      previewCtx.stroke();
+    }
+    for (let y = 30; y <= 370; y += 20) {
+      previewCtx.beginPath();
+      previewCtx.moveTo(200, y);
+      previewCtx.lineTo(400, y);
+      previewCtx.stroke();
+    }
+    
+    // Düşen parça (T)
+    drawBlock(previewCtx, 280, 90, 20, '#9b59b6');
+    drawBlock(previewCtx, 260, 110, 20, '#9b59b6');
+    drawBlock(previewCtx, 280, 110, 20, '#9b59b6');
+    drawBlock(previewCtx, 300, 110, 20, '#9b59b6');
+    
+    // Alt tarafta yerleşmiş bloklar
+    const bottomBlocks = [
+      [200, 350, '#00f5ff'], [220, 350, '#00f5ff'], [240, 350, '#ffe66d'], [260, 350, '#ffe66d'],
+      [280, 350, '#2ecc71'], [300, 350, '#2ecc71'], [320, 350, '#e74c3c'], [340, 350, '#e74c3c'],
+      [360, 350, '#3498db'], [380, 350, '#3498db'],
+      [200, 330, '#e67e22'], [220, 330, '#e67e22'], [240, 330, '#00f5ff'], [340, 330, '#ffe66d'],
+      [360, 330, '#ffe66d'], [380, 330, '#2ecc71'],
+      [200, 310, '#9b59b6'], [380, 310, '#e74c3c']
+    ];
+    
+    bottomBlocks.forEach(([x, y, color]) => drawBlock(previewCtx, x, y, 20, color));
+    
+    // Başlık
+    previewCtx.fillStyle = '#e94560';
+    previewCtx.font = 'bold 48px Arial';
+    previewCtx.textAlign = 'center';
+    previewCtx.fillText('TETRIS', 300, 250);
+    
+    // Alt yazı
+    previewCtx.fillStyle = '#fff';
+    previewCtx.font = '18px Arial';
+    previewCtx.fillText('Klasik Tetris Deneyimi', 300, 285);
+    
+    // Skor göstergeleri
+    previewCtx.fillStyle = 'rgba(255,255,255,0.1)';
+    previewCtx.fillRect(430, 50, 140, 60);
+    previewCtx.fillStyle = '#888';
+    previewCtx.font = '12px Arial';
+    previewCtx.textAlign = 'left';
+    previewCtx.fillText('SKOR', 450, 75);
+    previewCtx.fillStyle = '#fff';
+    previewCtx.font = 'bold 24px Arial';
+    previewCtx.fillText('12500', 450, 100);
+    
+    previewCtx.fillStyle = 'rgba(255,255,255,0.1)';
+    previewCtx.fillRect(430, 130, 140, 60);
+    previewCtx.fillStyle = '#888';
+    previewCtx.font = '12px Arial';
+    previewCtx.fillText('SEVİYE', 450, 155);
+    previewCtx.fillStyle = '#fff';
+    previewCtx.font = 'bold 24px Arial';
+    previewCtx.fillText('5', 450, 180);
+    
+    document.getElementById('download-preview').href = previewCanvas.toDataURL('image/png');
+  </script>
+</body>
+</html>

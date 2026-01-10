@@ -1,26 +1,26 @@
 {
   "accountAssociation": {
-    "header": "[FARCASTER'DAN ALINACAK]",
-    "payload": "[FARCASTER'DAN ALINACAK]",
-    "signature": "[FARCASTER'DAN ALINACAK]"
+    "header": "eyJmaWQiOjg3MDQ0MywidHlwZSI6ImN1c3RvZHkiLCJrZXkiOiIweGJkYzVkREFkMWNlQjA2ZjA5MDk4OGIzNGNDRThGMzNjODJiMUY1MDgifQ",
+    "payload": "eyJkb21haW4iOiJiYXNlYXBwLW9ycGluLnZlcmNlbC5hcHAifQ",
+    "signature": "M+CyAOnfKCN+FG3QILNXU5VozEujzjELUthzFWOGrvtECgEU5YgGTfdQamCNg32sIol9ckJt6uUJVGkh4DsaARs="
   },
   "frame": {
     "version": "1",
     "name": "Tetris",
     "subtitle": "Klasik Tetris Oyunu",
     "description": "Mobil uyumlu klasik Tetris oyunu. Blokları yerleştir, satırları tamamla ve yüksek skor yap!",
-    "iconUrl": "https://[DOMAIN]/icon.png",
-    "homeUrl": "https://[DOMAIN]",
-    "imageUrl": "https://[DOMAIN]/preview.png",
-    "splashImageUrl": "https://[DOMAIN]/icon.png",
+    "iconUrl": "https://baseapp-orpin.vercel.app/icon.png",
+    "homeUrl": "https://baseapp-orpin.vercel.app",
+    "imageUrl": "https://baseapp-orpin.vercel.app/preview.png",
+    "splashImageUrl": "https://baseapp-orpin.vercel.app/icon.png",
     "splashBackgroundColor": "#1a1a2e",
     "primaryCategory": "games",
     "tags": ["game", "arcade", "tetris"],
     "tagline": "Klasik Tetris Deneyimi",
-    "heroImageUrl": "https://[DOMAIN]/preview.png",
-    "screenshotUrls": ["https://[DOMAIN]/preview.png"],
+    "heroImageUrl": "https://baseapp-orpin.vercel.app/preview.png",
+    "screenshotUrls": ["https://baseapp-orpin.vercel.app/preview.png"],
     "ogTitle": "Tetris Mini App",
     "ogDescription": "Farcaster üzerinde klasik Tetris oyunu",
-    "ogImageUrl": "https://[DOMAIN]/preview.png"
+    "ogImageUrl": "https://baseapp-orpin.vercel.app/preview.png"
   }
 }

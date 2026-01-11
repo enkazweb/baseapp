@@ -4,12 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="fc:frame" content="vNext">
-  <meta name="base:app_id" content="6962b732b8395f034ac222d9">
-  <title>Tetris</title>
+  <meta name="base:app_id" content="">
+  <title>Enkazweb Tetris</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div id="game-container">
+    <div id="logo">
+      <span class="logo-text">ENKAZWEB</span>
+      <span class="logo-title">TETRIS</span>
+      <span class="logo-version">V1.0</span>
+    </div>
+    
     <div id="header">
       <div id="score-display">
         <span>SKOR</span>
@@ -25,7 +31,15 @@
       </div>
     </div>
     
-    <canvas id="game-board"></canvas>
+    <div id="game-wrapper">
+      <canvas id="game-board"></canvas>
+      
+      <div id="start-screen">
+        <div id="start-blocks"></div>
+        <button id="start-btn">▶ START</button>
+        <p id="start-hint">Blokları yerleştir, satırları tamamla!</p>
+      </div>
+    </div>
     
     <div id="next-piece-container">
       <span>SONRAKİ</span>

@@ -6,7 +6,7 @@ sdk.actions.ready();
 // Oyun sabitleri
 const COLS = 10;
 const ROWS = 20;
-const BLOCK_SIZE = Math.min(Math.floor((window.innerHeight - 200) / ROWS), 28);
+const BLOCK_SIZE = Math.min(Math.floor((window.innerHeight - 280) / ROWS), 28);
 
 // Canvas ayarları
 const canvas = document.getElementById('game-board');
@@ -51,8 +51,27 @@ let score = 0;
 let level = 1;
 let lines = 0;
 let gameOver = false;
+let gameStarted = false;
 let dropInterval = 1000;
 let lastDrop = 0;
+
+// Start ekranı animasyonu
+function createFallingBlocks() {
+  const container = document.getElementById('start-blocks');
+  const colors = COLORS.filter(c => c !== null);
+  
+  for (let i = 0; i < 15; i++) {
+    const block = document.createElement('div');
+    block.className = 'falling-block';
+    block.style.left = Math.random() * 100 + '%';
+    block.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    block.style.animationDuration = (3 + Math.random() * 4) + 's';
+    block.style.animationDelay = Math.random() * 3 + 's';
+    container.appendChild(block);
+  }
+}
+
+createFallingBlocks();
 
 function createBoard() {
   return Array(ROWS).fill(null).map(() => Array(COLS).fill(0));
@@ -255,7 +274,7 @@ function drawNextPiece() {
 }
 
 function gameLoop(time) {
-  if (!gameOver) {
+  if (!gameOver && gameStarted) {
     if (time - lastDrop > dropInterval) {
       drop();
       lastDrop = time;
@@ -265,12 +284,21 @@ function gameLoop(time) {
   }
 }
 
+function startGame() {
+  document.getElementById('start-screen').classList.add('hidden');
+  gameStarted = true;
+  nextPiece = getRandomPiece();
+  resetPiece();
+  requestAnimationFrame(gameLoop);
+}
+
 function restart() {
   board = createBoard();
   score = 0;
   level = 1;
   lines = 0;
   gameOver = false;
+  gameStarted = true;
   dropInterval = 1000;
   lastDrop = 0;
   
@@ -284,15 +312,26 @@ function restart() {
   requestAnimationFrame(gameLoop);
 }
 
-// Kontroller
-document.getElementById('btn-left').addEventListener('click', () => !gameOver && moveLeft());
-document.getElementById('btn-right').addEventListener('click', () => !gameOver && moveRight());
-document.getElementById('btn-down').addEventListener('click', () => !gameOver && drop());
-document.getElementById('btn-rotate').addEventListener('click', () => !gameOver && rotatePiece());
+// Başlangıç ekranını göster
+draw();
+
+// Event listeners
+document.getElementById('start-btn').addEventListener('click', startGame);
+document.getElementById('btn-left').addEventListener('click', () => gameStarted && !gameOver && moveLeft());
+document.getElementById('btn-right').addEventListener('click', () => gameStarted && !gameOver && moveRight());
+document.getElementById('btn-down').addEventListener('click', () => gameStarted && !gameOver && drop());
+document.getElementById('btn-rotate').addEventListener('click', () => gameStarted && !gameOver && rotatePiece());
 document.getElementById('restart-btn').addEventListener('click', restart);
 
 // Klavye kontrolleri
 document.addEventListener('keydown', (e) => {
+  if (!gameStarted) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      startGame();
+    }
+    return;
+  }
+  
   if (gameOver) return;
   
   switch(e.key) {
@@ -321,7 +360,7 @@ canvas.addEventListener('touchstart', (e) => {
 });
 
 canvas.addEventListener('touchend', (e) => {
-  if (gameOver) return;
+  if (!gameStarted || gameOver) return;
   
   const touchEndX = e.changedTouches[0].clientX;
   const touchEndY = e.changedTouches[0].clientY;
@@ -338,6 +377,3 @@ canvas.addEventListener('touchend', (e) => {
     else if (diffY < -minSwipe) rotatePiece();
   }
 });
-
-// Oyunu başlat
-restart();

@@ -37,11 +37,11 @@ Farcaster Mini App olarak geliştirilen, mobil uyumlu klasik Tetris oyunu.
 | ↑ | Döndür |
 | Enter/Space | Oyunu başlat |
 
-### Swipe Kontroller (Canvas üzerinde)
-- **Sağa kaydır:** Sağa hareket
-- **Sola kaydır:** Sola hareket
+### Touch Kontroller (Ekran üzerinde)
+- **Ekrana dokun (tap):** Döndür
+- **Sağa kaydır:** Sağa hareket (sürekli)
+- **Sola kaydır:** Sola hareket (sürekli)
 - **Aşağı kaydır:** Hızlı düşür
-- **Yukarı kaydır:** Döndür
 
 ## 📊 Puanlama
 
@@ -100,7 +100,7 @@ BaseTetris/
 
 ## 🌐 Canlı Demo
 
-🎮 **Oyna:** [baseapp-orpin.vercel.app](https://baseapp-orpin.vercel.app)
+🎮 **Oyna:** [tetris.enkazweb.com](https://tetris.enkazweb.com)
 
 ## 📱 Farcaster'da Oyna
 

@@ -781,30 +781,69 @@ document.addEventListener('keyup', (e) => {
   }
 });
 
-// Touch swipe kontrolleri
+// Touch swipe kontrolleri - geliştirilmiş
 let touchStartX = 0;
 let touchStartY = 0;
+let touchStartTime = 0;
+let touchMoved = false;
+let lastTouchMoveX = 0;
+let lastTouchMoveY = 0;
+const SWIPE_THRESHOLD = 25; // Kaydırma eşiği (piksel)
+const TAP_THRESHOLD = 200; // Tap süresi (ms)
 
 canvas.addEventListener('touchstart', (e) => {
+  e.preventDefault();
   touchStartX = e.touches[0].clientX;
   touchStartY = e.touches[0].clientY;
+  lastTouchMoveX = touchStartX;
+  lastTouchMoveY = touchStartY;
+  touchStartTime = Date.now();
+  touchMoved = false;
+});
+
+canvas.addEventListener('touchmove', (e) => {
+  if (!gameStarted || gameOver || isClearing) return;
+  e.preventDefault();
+  
+  const touchX = e.touches[0].clientX;
+  const touchY = e.touches[0].clientY;
+  
+  const diffX = touchX - lastTouchMoveX;
+  const diffY = touchY - lastTouchMoveY;
+  
+  // Yatay hareket - her SWIPE_THRESHOLD piksel için bir kare
+  if (Math.abs(diffX) >= SWIPE_THRESHOLD) {
+    if (diffX > 0) {
+      moveRight();
+    } else {
+      moveLeft();
+    }
+    lastTouchMoveX = touchX;
+    touchMoved = true;
+  }
+  
+  // Dikey hareket - aşağı kaydırma
+  if (diffY >= SWIPE_THRESHOLD) {
+    moveDown();
+    lastTouchMoveY = touchY;
+    touchMoved = true;
+  }
 });
 
 canvas.addEventListener('touchend', (e) => {
   if (!gameStarted || gameOver) return;
   
+  const touchEndTime = Date.now();
+  const touchDuration = touchEndTime - touchStartTime;
+  
   const touchEndX = e.changedTouches[0].clientX;
   const touchEndY = e.changedTouches[0].clientY;
-  const diffX = touchEndX - touchStartX;
-  const diffY = touchEndY - touchStartY;
+  const totalDiffX = touchEndX - touchStartX;
+  const totalDiffY = touchEndY - touchStartY;
   
-  const minSwipe = 30;
-  
-  if (Math.abs(diffX) > Math.abs(diffY)) {
-    if (diffX > minSwipe) moveRight();
-    else if (diffX < -minSwipe) moveLeft();
-  } else {
-    if (diffY > minSwipe) drop();
-    else if (diffY < -minSwipe) rotatePiece();
+  // Tap (kısa dokunuş ve az hareket) = döndür
+  if (!touchMoved && touchDuration < TAP_THRESHOLD && 
+      Math.abs(totalDiffX) < 15 && Math.abs(totalDiffY) < 15) {
+    rotatePiece();
   }
 });

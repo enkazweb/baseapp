@@ -59,30 +59,54 @@ body {
 
 #header {
   display: flex;
-  gap: 20px;
+  gap: 12px;
   margin-bottom: 10px;
+  align-items: stretch;
 }
 
 #header > div {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   background: rgba(255, 255, 255, 0.1);
-  padding: 8px 16px;
+  padding: 8px 12px;
   border-radius: 10px;
-  min-width: 70px;
+  min-width: 60px;
 }
 
 #header span:first-child {
-  font-size: 10px;
+  font-size: 9px;
   color: #888;
   letter-spacing: 1px;
 }
 
 #header span:last-child {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
   color: #fff;
+}
+
+#next-piece-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 8px 12px;
+  border-radius: 10px;
+}
+
+#next-piece-container span {
+  font-size: 9px;
+  color: #888;
+  margin-bottom: 4px;
+  letter-spacing: 1px;
+}
+
+#next-piece {
+  background: #0a0a14;
+  border-radius: 4px;
 }
 
 #game-wrapper {
@@ -173,30 +197,6 @@ body {
   z-index: 1;
 }
 
-#next-piece-container {
-  position: absolute;
-  right: 10px;
-  top: 120px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: rgba(255, 255, 255, 0.1);
-  padding: 10px;
-  border-radius: 10px;
-}
-
-#next-piece-container span {
-  font-size: 10px;
-  color: #888;
-  margin-bottom: 5px;
-  letter-spacing: 1px;
-}
-
-#next-piece {
-  background: #0a0a14;
-  border-radius: 5px;
-}
-
 #controls {
   display: flex;
   gap: 10px;
@@ -276,11 +276,18 @@ body {
   .logo-title {
     font-size: 24px;
   }
+  #header {
+    gap: 8px;
+  }
   #header > div {
-    padding: 5px 12px;
+    padding: 5px 10px;
+    min-width: 50px;
+  }
+  #header span:first-child {
+    font-size: 8px;
   }
   #header span:last-child {
-    font-size: 16px;
+    font-size: 14px;
   }
   #controls button {
     width: 50px;

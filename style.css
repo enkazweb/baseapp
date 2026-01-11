@@ -265,6 +265,20 @@ body {
   transform: scale(0.95);
 }
 
+.developer-credit {
+  color: #888;
+  font-size: 11px;
+  margin-top: 15px;
+}
+
+.developer-name {
+  color: #e94560;
+  font-size: 14px;
+  font-weight: bold;
+  display: block;
+  margin-top: 3px;
+}
+
 .hidden {
   display: none !important;
 }

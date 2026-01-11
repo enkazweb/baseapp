@@ -10,7 +10,7 @@ let musicPlaying = false;
 let musicTimeout = null;
 let audioInitialized = false;
 let musicLoopCount = 0;
-const MAX_MUSIC_LOOPS = 3;
+const MAX_MUSIC_LOOPS = 2;
 
 function initAudio() {
   if (!audioCtx) {
@@ -598,7 +598,14 @@ function gameLoop(time) {
     const currentInterval = softDropping ? SOFT_DROP_INTERVAL : dropInterval;
     if (!isClearing && time - lastDrop > currentInterval) {
       if (softDropping) {
-        moveDown(); // Soft drop sadece hareket ettirir, yerleştirmez
+        // Soft drop - aşağı gidemiyorsa hemen yerleştir
+        if (!moveDown()) {
+          playDropSound();
+          merge();
+          if (!clearLinesWithAnimation()) {
+            resetPiece();
+          }
+        }
       } else {
         drop();
       }

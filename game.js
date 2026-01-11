@@ -282,6 +282,16 @@ let clearingLines = [];
 let clearAnimationFrame = 0;
 let isClearing = false;
 
+// Soft drop (basılı tutunca hızlı inme)
+let softDropping = false;
+const SOFT_DROP_INTERVAL = 50; // Hızlı düşme aralığı (ms)
+
+// Sağ/sol basılı tutma
+let movingLeft = false;
+let movingRight = false;
+let lastMoveTime = 0;
+const MOVE_INTERVAL = 80; // Hareket aralığı (ms)
+
 // Start ekranı animasyonu
 function createFallingBlocks() {
   const container = document.getElementById('start-blocks');
@@ -577,8 +587,21 @@ function drawNextPiece() {
 
 function gameLoop(time) {
   if (!gameOver && gameStarted) {
-    if (!isClearing && time - lastDrop > dropInterval) {
-      drop();
+    // Sağ/sol hareket
+    if (!isClearing && (movingLeft || movingRight) && time - lastMoveTime > MOVE_INTERVAL) {
+      if (movingLeft) moveLeft();
+      if (movingRight) moveRight();
+      lastMoveTime = time;
+    }
+    
+    // Aşağı düşme
+    const currentInterval = softDropping ? SOFT_DROP_INTERVAL : dropInterval;
+    if (!isClearing && time - lastDrop > currentInterval) {
+      if (softDropping) {
+        moveDown(); // Soft drop sadece hareket ettirir, yerleştirmez
+      } else {
+        drop();
+      }
       lastDrop = time;
     }
     draw();
@@ -627,9 +650,71 @@ drawNextPiece();
 
 // Event listeners
 document.getElementById('start-btn').addEventListener('click', startGame);
-document.getElementById('btn-left').addEventListener('click', () => gameStarted && !gameOver && moveLeft());
-document.getElementById('btn-right').addEventListener('click', () => gameStarted && !gameOver && moveRight());
-document.getElementById('btn-down').addEventListener('click', () => gameStarted && !gameOver && drop());
+// Sol butonu - basılı tutunca sürekli hareket
+const btnLeft = document.getElementById('btn-left');
+btnLeft.addEventListener('touchstart', (e) => {
+  e.preventDefault();
+  if (gameStarted && !gameOver) {
+    moveLeft();
+    movingLeft = true;
+    lastMoveTime = performance.now();
+  }
+});
+btnLeft.addEventListener('touchend', () => { movingLeft = false; });
+btnLeft.addEventListener('mousedown', () => {
+  if (gameStarted && !gameOver) {
+    moveLeft();
+    movingLeft = true;
+    lastMoveTime = performance.now();
+  }
+});
+btnLeft.addEventListener('mouseup', () => { movingLeft = false; });
+btnLeft.addEventListener('mouseleave', () => { movingLeft = false; });
+
+// Sağ butonu - basılı tutunca sürekli hareket
+const btnRight = document.getElementById('btn-right');
+btnRight.addEventListener('touchstart', (e) => {
+  e.preventDefault();
+  if (gameStarted && !gameOver) {
+    moveRight();
+    movingRight = true;
+    lastMoveTime = performance.now();
+  }
+});
+btnRight.addEventListener('touchend', () => { movingRight = false; });
+btnRight.addEventListener('mousedown', () => {
+  if (gameStarted && !gameOver) {
+    moveRight();
+    movingRight = true;
+    lastMoveTime = performance.now();
+  }
+});
+btnRight.addEventListener('mouseup', () => { movingRight = false; });
+btnRight.addEventListener('mouseleave', () => { movingRight = false; });
+// Aşağı butonu - basılı tutunca hızlı düşme
+const btnDown = document.getElementById('btn-down');
+btnDown.addEventListener('touchstart', (e) => {
+  e.preventDefault();
+  if (gameStarted && !gameOver) {
+    softDropping = true;
+    lastDrop = 0;
+  }
+});
+btnDown.addEventListener('touchend', () => {
+  softDropping = false;
+});
+btnDown.addEventListener('mousedown', () => {
+  if (gameStarted && !gameOver) {
+    softDropping = true;
+    lastDrop = 0;
+  }
+});
+btnDown.addEventListener('mouseup', () => {
+  softDropping = false;
+});
+btnDown.addEventListener('mouseleave', () => {
+  softDropping = false;
+});
 document.getElementById('btn-rotate').addEventListener('click', () => gameStarted && !gameOver && rotatePiece());
 document.getElementById('restart-btn').addEventListener('click', restart);
 
@@ -646,16 +731,45 @@ document.addEventListener('keydown', (e) => {
   
   switch(e.key) {
     case 'ArrowLeft':
-      moveLeft();
+      if (!movingLeft) {
+        moveLeft(); // İlk basışta hemen hareket et
+        movingLeft = true;
+        lastMoveTime = performance.now();
+      }
+      e.preventDefault();
       break;
     case 'ArrowRight':
-      moveRight();
+      if (!movingRight) {
+        moveRight(); // İlk basışta hemen hareket et
+        movingRight = true;
+        lastMoveTime = performance.now();
+      }
+      e.preventDefault();
       break;
     case 'ArrowDown':
-      drop();
+      if (!softDropping) {
+        softDropping = true;
+        lastDrop = 0; // Hemen başlasın
+      }
+      e.preventDefault();
       break;
     case 'ArrowUp':
       rotatePiece();
+      e.preventDefault();
+      break;
+  }
+});
+
+document.addEventListener('keyup', (e) => {
+  switch(e.key) {
+    case 'ArrowLeft':
+      movingLeft = false;
+      break;
+    case 'ArrowRight':
+      movingRight = false;
+      break;
+    case 'ArrowDown':
+      softDropping = false;
       break;
   }
 });

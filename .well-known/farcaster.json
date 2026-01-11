@@ -1,27 +1,27 @@
 {
   "accountAssociation": {
     "header": "eyJmaWQiOjg3MDQ0MywidHlwZSI6ImN1c3RvZHkiLCJrZXkiOiIweGJkYzVkREFkMWNlQjA2ZjA5MDk4OGIzNGNDRThGMzNjODJiMUY1MDgifQ",
-    "payload": "eyJkb21haW4iOiJiYXNlYXBwLW9ycGluLnZlcmNlbC5hcHAifQ",
-    "signature": "M+CyAOnfKCN+FG3QILNXU5VozEujzjELUthzFWOGrvtECgEU5YgGTfdQamCNg32sIol9ckJt6uUJVGkh4DsaARs="
+    "payload": "eyJkb21haW4iOiJ0ZXRyaXMuZW5rYXp3ZWIuY29tIn0",
+    "signature": "ShndVqvcMOhnfyHTVZKETgcmu6UwuNOxgygKWCxHPplT8o0M1gETq8AYLIhP/9fZBEQWgOwP7zOXqOD7po6lERs="
   },
   "frame": {
     "version": "1",
     "name": "Tetris",
     "subtitle": "Klasik Tetris Oyunu",
     "description": "Mobil uyumlu klasik Tetris oyunu. Blokları yerleştir, satırları tamamla ve yüksek skor yap!",
-    "iconUrl": "https://baseapp-orpin.vercel.app/icon.png",
-    "homeUrl": "https://baseapp-orpin.vercel.app",
-    "imageUrl": "https://baseapp-orpin.vercel.app/preview.png",
-    "splashImageUrl": "https://baseapp-orpin.vercel.app/icon.png",
+    "iconUrl": "https://tetris.enkazweb.com/icon.png",
+    "homeUrl": "https://tetris.enkazweb.com",
+    "imageUrl": "https://tetris.enkazweb.com/preview.png",
+    "splashImageUrl": "https://tetris.enkazweb.com/icon.png",
     "splashBackgroundColor": "#1a1a2e",
     "primaryCategory": "games",
     "tags": ["game", "arcade", "tetris"],
     "tagline": "Klasik Tetris Deneyimi",
-    "heroImageUrl": "https://baseapp-orpin.vercel.app/preview.png",
-    "screenshotUrls": ["https://baseapp-orpin.vercel.app/preview.png"],
+    "heroImageUrl": "https://tetris.enkazweb.com/preview.png",
+    "screenshotUrls": ["https://tetris.enkazweb.com/preview.png"],
     "ogTitle": "Tetris Mini App",
     "ogDescription": "Farcaster üzerinde klasik Tetris oyunu",
-    "ogImageUrl": "https://baseapp-orpin.vercel.app/preview.png",
+    "ogImageUrl": "https://tetris.enkazweb.com/preview.png",
     "noindex": false
   }
 }

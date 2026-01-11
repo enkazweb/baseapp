@@ -21,6 +21,7 @@
     "screenshotUrls": ["https://baseapp-orpin.vercel.app/preview.png"],
     "ogTitle": "Tetris Mini App",
     "ogDescription": "Farcaster üzerinde klasik Tetris oyunu",
-    "ogImageUrl": "https://baseapp-orpin.vercel.app/preview.png"
+    "ogImageUrl": "https://baseapp-orpin.vercel.app/preview.png",
+    "noindex": false
   }
 }

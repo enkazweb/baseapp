@@ -107,6 +107,8 @@ body {
 #next-piece {
   background: #0a0a14;
   border-radius: 4px;
+  width: 60px;
+  height: 30px;
 }
 
 #game-wrapper {
@@ -118,6 +120,8 @@ body {
   border-radius: 5px;
   background: #0a0a14;
   box-shadow: 0 0 30px rgba(233, 69, 96, 0.3);
+  min-width: 280px;
+  min-height: 560px;
 }
 
 #start-screen {

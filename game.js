@@ -228,7 +228,16 @@ function stopMusic() {
 // ==================== OYUN SABİTLERİ ====================
 const COLS = 10;
 const ROWS = 20;
-const BLOCK_SIZE = Math.min(Math.floor((window.innerHeight - 280) / ROWS), 28);
+
+// Dinamik blok boyutu hesaplama
+function calculateBlockSize() {
+  const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+  const availableHeight = viewportHeight - 200; // Logo, header, controls için alan
+  const maxBlockSize = Math.floor(availableHeight / ROWS);
+  return Math.min(Math.max(maxBlockSize, 16), 28); // Min 16, Max 28
+}
+
+let BLOCK_SIZE = calculateBlockSize();
 
 // Canvas ayarları
 const canvas = document.getElementById('game-board');
@@ -240,6 +249,14 @@ const nextCanvas = document.getElementById('next-piece');
 const nextCtx = nextCanvas.getContext('2d');
 nextCanvas.width = 4 * 15;
 nextCanvas.height = 2 * 15;
+
+// Ekran boyutu değiştiğinde yeniden hesapla
+window.addEventListener('resize', () => {
+  BLOCK_SIZE = calculateBlockSize();
+  canvas.width = COLS * BLOCK_SIZE;
+  canvas.height = ROWS * BLOCK_SIZE;
+  draw();
+});
 
 // Renkler
 const COLORS = [

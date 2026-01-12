@@ -1,0 +1,18 @@
+{
+  "name": "Enkazweb Tetris",
+  "short_name": "Tetris",
+  "description": "Klasik Tetris oyunu - Farcaster Mini App",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#1a1a2e",
+  "theme_color": "#e94560",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "200x200",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

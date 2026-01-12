@@ -290,7 +290,7 @@ const SOFT_DROP_INTERVAL = 50; // Hızlı düşme aralığı (ms)
 let movingLeft = false;
 let movingRight = false;
 let lastMoveTime = 0;
-const MOVE_INTERVAL = 80; // Hareket aralığı (ms)
+const MOVE_INTERVAL = 150; // Hareket aralığı (ms)
 
 // Start ekranı animasyonu
 function createFallingBlocks() {
@@ -367,12 +367,46 @@ function merge() {
 
 function findFullLines() {
   const fullLines = [];
-  for (let y = ROWS - 1; y >= 0; y--) {
-    if (board[y].every(cell => cell !== 0)) {
+  for (let y = 0; y < ROWS; y++) {
+    let isFull = true;
+    for (let x = 0; x < COLS; x++) {
+      if (board[y][x] === 0) {
+        isFull = false;
+        break;
+      }
+    }
+    if (isFull) {
       fullLines.push(y);
     }
   }
   return fullLines;
+}
+
+function removeLinesFromBoard(linesToRemove) {
+  // Satırları yukarıdan aşağıya sırala
+  linesToRemove.sort((a, b) => a - b);
+  
+  // Yeni board oluştur
+  const newBoard = [];
+  
+  // Silinecek satırlar hariç tüm satırları kopyala
+  for (let y = 0; y < ROWS; y++) {
+    if (!linesToRemove.includes(y)) {
+      newBoard.push([...board[y]]);
+    }
+  }
+  
+  // Üste boş satırlar ekle
+  while (newBoard.length < ROWS) {
+    newBoard.unshift(Array(COLS).fill(0));
+  }
+  
+  // Board'u güncelle
+  for (let y = 0; y < ROWS; y++) {
+    for (let x = 0; x < COLS; x++) {
+      board[y][x] = newBoard[y][x];
+    }
+  }
 }
 
 function clearLinesWithAnimation() {
@@ -380,9 +414,12 @@ function clearLinesWithAnimation() {
   
   if (fullLines.length > 0) {
     isClearing = true;
-    clearingLines = fullLines;
+    clearingLines = [...fullLines];
     clearAnimationFrame = 0;
     playClearSound(fullLines.length);
+    
+    const linesToClear = [...fullLines];
+    const lineCount = linesToClear.length;
     
     // Animasyon
     const animateClear = () => {
@@ -393,14 +430,11 @@ function clearLinesWithAnimation() {
         requestAnimationFrame(animateClear);
       } else {
         // Satırları sil
-        fullLines.sort((a, b) => b - a).forEach(y => {
-          board.splice(y, 1);
-          board.unshift(Array(COLS).fill(0));
-        });
+        removeLinesFromBoard(linesToClear);
         
         const points = [0, 100, 300, 500, 800];
-        score += points[fullLines.length] * level;
-        lines += fullLines.length;
+        score += points[lineCount] * level;
+        lines += lineCount;
         level = Math.floor(lines / 10) + 1;
         dropInterval = Math.max(100, 1000 - (level - 1) * 100);
         
@@ -788,7 +822,7 @@ let touchStartTime = 0;
 let touchMoved = false;
 let lastTouchMoveX = 0;
 let lastTouchMoveY = 0;
-const SWIPE_THRESHOLD = 25; // Kaydırma eşiği (piksel)
+const SWIPE_THRESHOLD = 40; // Kaydırma eşiği (piksel)
 const TAP_THRESHOLD = 200; // Tap süresi (ms)
 
 canvas.addEventListener('touchstart', (e) => {
